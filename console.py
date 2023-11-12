@@ -76,7 +76,9 @@ class HBNBCommand(cmd.Cmd):
                 command_name = command_name.strip()
                 arguments = arguments.rstrip(')')
                 if command_name in self.arg_dict:
-                    return self.arg_dict[command_name](f"{class_name} {arguments}")
+                    return self.arg_dict[command_name](
+                                f"{class_name} {arguments}"
+                            )
 
         print("*** Unknown syntax: {}".format(line))
         return False
@@ -235,9 +237,9 @@ class HBNBCommand(cmd.Cmd):
 
         # Check if the attribute should be updated using a dictionary
         if len(line_list) == 4 and \
-            isinstance(attr_value, str) and \
-            attr_value.startswith("{") and \
-            attr_value.endswith("}"):
+                isinstance(attr_value, str) and \
+                attr_value.startswith("{") and \
+                attr_value.endswith("}"):
             try:
                 attr_value = eval(attr_value)
                 if not isinstance(attr_value, dict):
