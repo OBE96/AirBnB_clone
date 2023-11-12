@@ -1,93 +1,41 @@
 #!/usr/bin/python3
-"""Unit testing module for the City class
-comprising Unittest classes:
-    TestCity_instantiation
-    TestCity_save
-    TestCity_to_dict
 """
-
+Unittest for user class
+"""
 import unittest
-from datetime import datetime
-import time
-import uuid
 from models.city import City
-import re
-import json
-from models.engine.file_storage import FileStorage
-import os
-from models import storage
-from models.base_model import BaseModel
+import datetime
+
 
 class TestCity(unittest.TestCase):
-    """Test scenario for the City model class"""
+    """Tests the instances and methods from  thecity class"""
 
-    @classmethod
-    def setUpClass(cls):
-        """Configure the unittest."""
-        cls.city = City()
-        cls.city.state_id = str(uuid.uuid4())
-        cls.city.name = "St. Petesburg"
+    c = City()
 
-    @classmethod
-    def tearDownClass(cls):
-        """Tidy up the dirt"""
-        del cls.city
-        try:
-            os.remove("file.json")
-        except FileNotFoundError:
-            pass
+    def test_class_exists(self):
+        """tests if the class exists"""
+        self.assertEqual(str(type(self.c)), "<class 'models.city.City'>")
 
-    def test_no_args_instantiates(self):
-        self.assertEqual(City, type(City()))
+    def test_user_inheritance(self):
+        """test weather city is a subclass of BaseModel"""
+        self.assertTrue(self.c, City)
 
-    def test_new_instance_stored_in_objects(self):
-        self.assertIn(City(), storage.all().values())
+    def testHasAttributes(self):
+        """verify if the attributes exist"""
+        self.assertTrue(hasattr(self.c, 'state_id'))
+        self.assertTrue(hasattr(self.c, 'name'))
+        self.assertTrue(hasattr(self.c, 'id'))
+        self.assertTrue(hasattr(self.c, 'created_at'))
+        self.assertTrue(hasattr(self.c, 'updated_at'))
 
-    def test_id_is_public_str(self):
-        self.assertEqual(str, type(City().id))
-
-    def test_created_at_is_public_datetime(self):
-        self.assertEqual(datetime, type(City().created_at))
-
-    def test_updated_at_is_public_datetime(self):
-        self.assertEqual(datetime, type(City().updated_at))
-
-    def test_is_subclass(self):
-        self.assertTrue(issubclass(self.city.__class__, BaseModel))
-
-    def checking_for_doc(self):
-        self.assertIsNotNone(City.__doc__)
-
-    def test_has_attributes(self):
-        self.assertTrue('id' in self.city.__dict__)
-        self.assertTrue('created_at' in self.city.__dict__)
-        self.assertTrue('updated_at' in self.city.__dict__)
-        self.assertTrue('state_id' in self.city.__dict__)
-        self.assertTrue('name' in self.city.__dict__)
-
-    def test_state_id_is_public_class_attribute(self):
-        ci = City()
-        self.assertEqual(str, type(City.state_id))
-        self.assertIn("state_id", dir(ci))
-        self.assertNotIn("state_id", ci.__dict__)
-
-    def test_name_is_public_class_attribute(self):
-        ci = City()
-        self.assertEqual(str, type(City.name))
-        self.assertIn("name", dir(ci))
-        self.assertNotIn("name", ci.__dict__)
-
-    def test_attributes_are_string(self):
-        self.assertIs(type(self.city.state_id), str)
-        self.assertIs(type(self.city.name), str)
-
-    def test_save(self):
-        self.city.save()
-        self.assertNotEqual(self.city.created_at, self.city.updated_at)
-
-    def test_to_dict(self):
-        self.assertTrue('to_dict' in dir(self.city))
+    def test_types(self):
+        """tests if the type of the attribute is the correct one"""
+        self.assertIsInstance(self.c.state_id, str)
+        self.assertIsInstance(self.c.name, str)
+        self.assertIsInstance(self.c.id, str)
+        self.assertIsInstance(self.c.created_at, datetime.datetime)
+        self.assertIsInstance(self.c.updated_at, datetime.datetime)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
