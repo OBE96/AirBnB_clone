@@ -21,7 +21,7 @@ class BaseModel:
         self.updated_at = datetime.today()
         if kwargs:
             for key, val in kwargs.items():
-                if key == "created_at" or Key == "updated_at":
+                if key == "created_at" or key == "updated_at":
                     self.__dict__[key] = datetime.strptime(val, time_format)
                 else:
                     self.__dict__[key] = val
